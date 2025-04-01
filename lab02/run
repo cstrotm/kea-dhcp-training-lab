@@ -3,8 +3,8 @@ function pid {
   podman inspect --format '{{.State.Pid}}' $1
 }
 
-podman stop kea-server client relay
-podman rm --force kea-server client relay
+podman stop --ignore kea-server client relay
+podman rm --force --ignore kea-server client relay
 podman run --privileged --net=none -v /root/kea/conf:/etc/kea:Z --name kea-server -d kea-base
 podman run --privileged --net=none --name client  -d client
 podman run --privileged --net=none --name relay  -d relay

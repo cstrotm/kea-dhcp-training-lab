@@ -1,8 +1,8 @@
 #!/bin/sh
-podman stop kea-server1
-podman stop kea-server2
-podman stop relay
-podman stop clientA
-podman stop clientB
-podman stop bind9
+podman stop --ignore kea-server1
+podman stop --ignore kea-server2
+podman stop --ignore relay
+podman stop --ignore clientA
+podman stop --ignore clientB
+podman stop --ignore bind9
 

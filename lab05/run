@@ -3,8 +3,8 @@ function pid {
   podman inspect --format '{{.State.Pid}}' $1
 }
 cp -a /root/kea/conf /root/kea/conf2
-podman stop kea-server1 kea-server2 clientA clientB relay bind9
-podman rm --force kea-server1 kea-server2 clientA clientB relay bind9
+podman stop --ignore kea-server1 kea-server2 clientA clientB relay bind9
+podman rm --force --ignore kea-server1 kea-server2 clientA clientB relay bind9
 podman run --privileged --net=none -v /root/kea/conf:/etc/kea:Z --name kea-server1 -d kea-dev
 podman run --privileged --net=none -v /root/kea/conf2:/etc/kea:Z --name kea-server2 -d kea-dev
 podman run --privileged --net=none --name clientA  -d client

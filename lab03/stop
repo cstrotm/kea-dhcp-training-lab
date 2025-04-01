@@ -1,6 +1,6 @@
 #!/bin/sh
-podman stop kea-server
-podman stop relay
-podman stop clientA
-podman stop clientB
+podman stop --ignore kea-server
+podman stop --ignore relay
+podman stop --ignore clientA
+podman stop --ignore clientB
 
