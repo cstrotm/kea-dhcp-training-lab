@@ -1,13 +1,13 @@
-* Files to setup the training labs for KEA DHCP and IPv6 training
+* Files to setup the training labs for Kea DHCP and IPv6 training
 
 This repository contains scripts to build the training lab environment
-on Linux using Linux container for the [[https://kea.isc.org][KEA DHCP Server]] and IPv6 training.
+on Linux using Linux container for the [[https://kea.isc.org][Kea DHCP Server]] and IPv6 training.
 
 The training lab scripts have been tested on the latest Fedora Linux
 version (Fedora 36+). They might also work with the latest Red Hat EL
 9.x and Rocky/Alma Linux.
 
-The KEA Lab environment depends on podman https://podman.io. Podman
+The Kea Lab environment depends on podman https://podman.io. Podman
 can possibly substituded by Docker (https://docker.io), however it has
 not been tested.
 
@@ -43,14 +43,14 @@ The =clean= script will remove the lab containers for this lab
 
 ** Configuration
 
-The directory =conf= will contain the persistent configuration for KEA
+The directory =conf= will contain the persistent configuration for Kea
 DHCP and BIND 9. The directory =conf2= will contain the persitent
-configuration files for the 2nd ISC KEA DHCP Server for the HA lab in
+configuration files for the 2nd ISC Kea DHCP Server for the HA lab in
 lab05.
 
 The directory =conf.template= contain example configuration files for
 the different labs.
 
 * the Training
-Information about the KEA DHCP training is available at
-<https://www.menandmice.com/training/kea-dhcp-training/>
+Information about the Kea DHCP training is available at
+<https://kea-cookbook.de/note/2025/03/14/kea-dhcp-training/>
