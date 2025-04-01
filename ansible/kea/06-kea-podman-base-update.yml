@@ -1,0 +1,14 @@
+---
+- name: Prepare Podman images
+  hosts: kea
+  become: true
+  tasks:
+  - name: Copy Podman images files to server
+    ansible.posix.synchronize:
+      src: "{{ item }}"
+      dest: /tmp
+      compress: yes
+    loop:
+      - images/kea-base.tar
+  - name: Import Kea-Base Image
+    shell: "podman rmi kea-base; podman import /tmp/kea-base.tar kea-base"

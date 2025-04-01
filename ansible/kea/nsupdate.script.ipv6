@@ -3,5 +3,6 @@ server primary.example.com
 del kea{{ ansible_hostname[-3:] }}.example.com.
 send
 add kea{{ ansible_hostname[-3:] }}.example.com. a {{ ansible_eth0.ipv4.address }}
+add kea{{ ansible_hostname[-3:] }}.example.com. aaaa {{ ansible_eth0.ipv6[0].address }}
 send
 quit

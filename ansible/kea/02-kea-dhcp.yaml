@@ -1,8 +1,17 @@
 ---
-- name: Install Kea webinar server
+- name: Install Kea webinar server (Rocky Linux 9)
   hosts: kea
   become: true
   tasks:
+  - name: Upgrade all packages
+    ansible.builtin.dnf:
+      name: "*"
+      state: latest
+    ignore_errors: True
+    async: 60
+    poll: 60
+#  - name: Update
+#    shell: "dnf -y upgrade"
   - name: Install tools
     dnf: name="{{ item }}"
     loop:
@@ -17,9 +26,10 @@
       - bind-utils
       - socat
       - git
+      - xz
   - name: Add User
     # Password "kea-dhcp"
-    user: name="user" group="wheel" password="$6$rounds=656000$sys4$zbwSUTO.hXoRiBrOGjlpiwF.KO6F22.QYzaAoN7teNwKBg32/90ZKzPDs5JFFwhX8dg0cp9ag9jhl5tlBxuZ9/"
+    user: name="user" group="wheel" password="$6$rounds=656000$<salt>$<hash>"
   - name: Enable and start cockpit
     service: name="cockpit" enabled="yes" state="started"
   - name: Enable and start Firewall

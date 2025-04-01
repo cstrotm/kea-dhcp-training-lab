@@ -5,7 +5,7 @@ function pid {
 
 podman stop kea-server clientA clientB relay bind9
 podman rm --force kea-server clientA clientB relay bind9
-podman run --privileged --net=none -v /root/lab/conf:/etc/kea:Z --name kea-server -d kea-base
+podman run --privileged --net=none -v /root/lab/conf:/etc/kea:Z --name kea-server -d kea-base /usr/lib/systemd/systemd --system
 podman run --privileged --net=none --name clientA  -d client
 podman run --privileged --net=none --name clientB  -d client
 podman run --privileged --net=none --name relay  -d relay

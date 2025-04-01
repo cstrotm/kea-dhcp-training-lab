@@ -1,0 +1,20 @@
+---
+- name: Prepare Podman images
+  hosts: kea
+  become: true
+  tasks:
+  - name: Download images from notes2
+    ansible.builtin.get_url:
+      url: http://kea-images.dane.onl/images/{{ item }}
+      dest: /tmp/{{ item }}
+      mode: '0440'
+    loop:
+      - client.tar.xz
+      - relay.tar.xz
+      - kea-base.tar.xz
+  - name: Import Client Image
+    shell: "podman rmi client; xzcat /tmp/client.tar.xz | podman load"
+  - name: Import Relay Image
+    shell: "podman rmi relay; xzcat /tmp/relay.tar.xz | podman load"
+  - name: Import Kea Base Image
+    shell: "podman rmi kea-base; xzcat /tmp/kea-base.tar.xz | podman load"

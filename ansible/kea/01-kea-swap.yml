@@ -1,0 +1,22 @@
+---
+- name: Create Swap file
+  hosts: kea
+  become: true
+  tasks:
+  - name: Create Swap file
+    shell: "dd if=/dev/zero of=/swapfile count=4096 bs=1M"
+    args:
+      creates: "/swapfile"
+  - name: Change permissions on swap file
+    file:
+      path: /swapfile
+      mode: '0600'
+  - name: Set up swap area
+    command: "mkswap /swapfile"
+  - name: Add swap to fstab
+    lineinfile:
+        path: /etc/fstab
+        line: "/swapfile swap swap defaults 0 0"
+        state: present
+  - name: Enable Swap-File
+    shell: "swapon /swapfile"

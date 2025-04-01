@@ -39,12 +39,11 @@
       shell: "/root/acme.sh/acme.sh --issue  -d kea{{ ansible_hostname[-3:] }}.dane.onl  --standalone --server letsencrypt"
       ignore_errors: yes
       args:
-        creates: "/root/.acme.sh/kea{{ ansible_hostname[-3:] }}.dane.onl/kea{{ ansible_hostname[-3:] }}.dane.onl.cer"
+        creates: "/root/.acme.sh/kea{{ ansible_hostname[-3:] }}.dane.onl_ecc/kea{{ ansible_hostname[-3:] }}.dane.onl.cer"
     - name: start Firewall
       service: name="firewalld" enabled="yes" state="started"
     - name: set Certificate for Cockpit
-#      shell: "/usr/sbin/remotectl certificate /root/.acme.sh/kea{{ ansible_hostname[-3:] }}.dane.onl/kea{{ ansible_hostname[-3:] }}.dane.onl.cer /root/.acme.sh/kea{{ ansible_hostname[-3:] }}.dane.onl/ca.cer /root/.acme.sh/kea{{ ansible_hostname[-3:] }}.dane.onl/kea{{ ansible_hostname[-3:] }}.dane.onl.key"
-      shell: "setenforce 0 && rm -f /etc/cockpit/ws-certs.d/* && /usr/bin/cp /root/.acme.sh/kea{{ ansible_hostname[-3:] }}.dane.onl/kea{{ ansible_hostname[-3:] }}.dane.onl.cer /etc/cockpit/ws-certs.d/0-self-signed.cert && /usr/bin/cp /root/.acme.sh/kea{{ ansible_hostname[-3:] }}.dane.onl/kea{{ ansible_hostname[-3:] }}.dane.onl.key /etc/cockpit/ws-certs.d/0-self-signed.key"
+      shell: "setenforce 0 && rm -f /etc/cockpit/ws-certs.d/* && /usr/bin/cp /root/.acme.sh/kea{{ ansible_hostname[-3:] }}.dane.onl_ecc/kea{{ ansible_hostname[-3:] }}.dane.onl.cer /etc/cockpit/ws-certs.d/0-self-signed.cert && /usr/bin/cp /root/.acme.sh/kea{{ ansible_hostname[-3:] }}.dane.onl_ecc/kea{{ ansible_hostname[-3:] }}.dane.onl.key /etc/cockpit/ws-certs.d/0-self-signed.key"
     - name: Adjust Cert permissions
       shell: "chmod 640 /etc/cockpit/ws-certs.d/*.cert && chown root:cockpit-ws /etc/cockpit/ws-certs.d/*.cert"
 - name: cleanup
