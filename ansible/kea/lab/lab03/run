@@ -3,9 +3,9 @@ function pid {
   podman inspect --format '{{.State.Pid}}' $1
 }
 
-podman stop kea-server clientA clientB relay
-podman rm --force kea-server clientA clientB relay
-podman run --privileged --net=none -v /root/lab/conf:/etc/kea:Z --name kea-server -d kea-base
+podman stop --ignore kea-server clientA clientB relay
+podman rm --force --ignore kea-server clientA clientB relay
+podman run --privileged --net=none -v /root/kea/conf:/etc/kea:Z --name kea-server -d kea-base
 podman run --privileged --net=none --name clientA  -d client
 podman run --privileged --net=none --name clientB  -d client
 podman run --privileged --net=none --name relay  -d relay

@@ -3,9 +3,9 @@ function pid {
   podman inspect --format '{{.State.Pid}}' $1
 }
 
-podman stop kea-server client
-podman rm --force kea-server client
-podman run --privileged --net=none -v /root/lab/conf:/etc/kea:Z --name kea-server -d kea-base
+podman stop --ignore kea-server client
+podman rm --ignore --force kea-server client
+podman run --privileged --net=none -v /root/kea/conf:/etc/kea:Z --name kea-server -d kea-base
 podman run --privileged --net=none --name client  -d client
 
 ip link add client-eth0 type veth peer name server-eth0

@@ -1,15 +1,16 @@
-#!/bin/bash
+#!/bin/sh
 function pid {
   podman inspect --format '{{.State.Pid}}' $1
 }
 
-podman stop kea-server clientA clientB relay bind9
-podman rm --force kea-server clientA clientB relay bind9
-podman run --privileged --net=none -v /root/lab/conf:/etc/kea:Z --name kea-server -d kea-base /usr/lib/systemd/systemd --system
+podman stop --ignore kea-server clientA clientB relay bind9
+podman rm --force --ignore kea-server clientA clientB relay bind9
+podman run --privileged --net=none -v /root/kea/conf:/etc/kea:Z --name kea-server -d kea-base
 podman run --privileged --net=none --name clientA  -d client
 podman run --privileged --net=none --name clientB  -d client
 podman run --privileged --net=none --name relay  -d relay
-podman run --privileged --net=none -v /root/lab/conf/namedb:/etc/namedb:Z --name bind9  -d bind /usr/lib/systemd/systemd --system
+podman run --privileged --net=none -v /root/kea/conf/namedb:/etc/namedb:Z --name bind9  -d bind
+
 
 ip link add client1-eth0 type veth peer name relay1-eth0
 ip link add client2-eth0 type veth peer name relay2-eth0
@@ -40,3 +41,4 @@ nsenter -t $(pid bind9)      -n ip route add default via 100.64.53.2
 nsenter -t $(pid kea-server) -n ip addr add 100.64.0.1/24 dev server-eth0
 nsenter -t $(pid kea-server) -n ip route add default via 100.64.0.2
 nsenter -t $(pid relay)      -n sysctl -w net.ipv4.ip_forward=1
+
